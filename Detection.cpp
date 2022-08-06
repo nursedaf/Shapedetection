@@ -21,21 +21,21 @@ int GetAngleABC(Point a, Point b, Point c)
 }
 
 int main() {
-	Mat x = imread("quadrilaterals_ver_1.png");
+	Mat x = imread("shapes.png");
 	resize(x, x, Size(682, 550));
 
 	Mat y, z, gradient;
 	cvtColor(x, y, COLOR_BGR2GRAY);
-	//threshold(y, y, 50, 255, THRESH_BINARY);	//binarye çevirme
-	//min değer 250 aşağısı siyah yukarısı beyaz - max 255
+	//threshold(y, y, 50, 255, THRESH_BINARY);	//binarye Ã§evirme
+	//min deÃ°er 250 aÃ¾aÃ°Ã½sÃ½ siyah yukarÃ½sÃ½ beyaz - max 255
 	
-	//Closing görüntü üzerindeki nesneyi kapatıp beyaz alanı arttırıp görüntü üzerindeki gürültüleri kaldırır.
+	//Closing gÃ¶rÃ¼ntÃ¼ Ã¼zerindeki nesneyi kapatÃ½p beyaz alanÃ½ arttÃ½rÃ½p gÃ¶rÃ¼ntÃ¼ Ã¼zerindeki gÃ¼rÃ¼ltÃ¼leri kaldÃ½rÃ½r.
 	morphologyEx(y, z, MORPH_CLOSE, getStructuringElement(MORPH_RECT, Size(7, 7)), Point(-1, -1), 1); 
 
 	Mat canny; //Canny kenar bulma
 	Canny(z, canny, 100, 170);
 
-	//Gradient: hatları ortaya çıkarma
+	//Gradient: hatlarÃ½ ortaya Ã§Ã½karma
 	morphologyEx(canny, gradient, MORPH_GRADIENT, getStructuringElement(MORPH_RECT, Size(2, 2)), Point(-1, -1), 1);
 	
 	vector<vector<Point>> contours;
@@ -52,7 +52,7 @@ int main() {
 		//double beta = (1.0 - alpha);
 
 		//addWeighted(x, alpha, draw, beta, 0.0, draw);
-		approxPolyDP(Mat(contours[i]), approx, arcLength(Mat(contours[i]), true) * 0.02, true); //görüntünün köşe sayısını almak için
+		approxPolyDP(Mat(contours[i]), approx, arcLength(Mat(contours[i]), true) * 0.02, true); //gÃ¶rÃ¼ntÃ¼nÃ¼n kÃ¶Ã¾e sayÃ½sÃ½nÃ½ almak iÃ§in
 		drawContours(draw, contours, -1, Scalar(0, 0, 255), 2);
 
 
@@ -60,7 +60,7 @@ int main() {
 		Point pt(r.x + ((r.width) / 2), r.y + ((r.height) / 2));
 		Scalar color(255, 0, 0);
 	
-		if (fabs(contourArea(contours[i])) < 100 || !isContourConvex(approx)) // Küçük veya dışbükey olmayan nesneleri atla
+		if (fabs(contourArea(contours[i])) < 100 || !isContourConvex(approx)) // KÃ¼Ã§Ã¼k veya dÃ½Ã¾bÃ¼key olmayan nesneleri atla
 			continue;
 		
 		if (approx.size() == 3) 
