@@ -1,2 +1,2 @@
-# Shapedetection_image
-Opencv shape Detection from image 
+# Shape Detection 
+Opencv shape detection from image 
